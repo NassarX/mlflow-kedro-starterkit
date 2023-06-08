@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Install the Python packages from requirements.txt
-export PATH="${APP_HOME}/.local/bin:$PATH"
-
 # Check if the directory exists
 if [[ ! -d "${APP_HOME}/${OUTPUT_DIR}/${REPO_NAME}" ]]; then
 

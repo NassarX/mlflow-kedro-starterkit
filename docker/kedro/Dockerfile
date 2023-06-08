@@ -9,6 +9,9 @@ LABEL maintainer="mahmoud@nassarx.com"
 LABEL version="1.0"
 LABEL description="Python Docker Image for Development"
 
+ENV PATH="${HOME}/miniconda3/bin:${PATH}"
+ARG PATH="${HOME}/miniconda3/bin:${PATH}"
+
 # Install dependencies
 RUN apt-get update && \
     apt-get upgrade -y && \
