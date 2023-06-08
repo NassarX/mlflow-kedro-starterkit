@@ -41,7 +41,7 @@ services:
       - kedro-framework
 
   kedro-framework:
-    container_name: kedro-framework-${REPO_NAME}
+    container_name: kedro-${REPO_NAME}
     build:
       context: ./docker/kedro
       args:
