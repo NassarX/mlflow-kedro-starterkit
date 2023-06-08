@@ -55,12 +55,11 @@ services:
       - GRANT_SUDO="yes"
     image: ${REPO_NAME}
     volumes:
-      - ./kedro:/home/kedro/${OUTPUT_DIR}
+      - ./kedro:/home/kedro_docker/${OUTPUT_DIR}
       - ./mlruns/models:${MLFLOW_ARTIFACT_STORE}
     ports:
       - "8889:8888"
       - "4142:4141"
-      - "5002:5000"
 networks:
   default:
     name: mlflow-starter

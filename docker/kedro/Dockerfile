@@ -24,14 +24,14 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
-ENV APP_HOME=/home/kedro
+ENV APP_HOME=/home/kedro_docker
 WORKDIR $APP_HOME
 
 # add kedro user
 ARG KEDRO_UID=999
 ARG KEDRO_GID=0
 RUN groupadd -f -g ${KEDRO_GID} kedro_group && \
-    useradd -m -d ${APP_HOME} -s /bin/bash -g ${KEDRO_GID} -u ${KEDRO_UID} kedro
+    useradd -m -d ${APP_HOME} -s /bin/bash -g ${KEDRO_GID} -u ${KEDRO_UID} kedro_docker
 
 # Copy config files and install dependencies
 COPY ./config/requirements.txt /tmp/requirements.txt
@@ -40,24 +40,24 @@ RUN pip install --upgrade pip && \
     rm -f /tmp/requirements.txt
 
 # Switch to the kedro user
-USER kedro
+USER kedro_docker
 
 FROM base as final
 
 # Set the working directory
-ENV APP_HOME=/home/kedro
+ENV APP_HOME=/home/kedro_docker
 WORKDIR $APP_HOME
 
-# Fix permissions for kedro user
+# Fix permissions for kedro_docker user
 USER root
-RUN chown -R kedro:${KEDRO_GID} ${APP_HOME}
+RUN chown -R kedro_docker:${KEDRO_GID} ${APP_HOME}
 
 # Copy kedro script
 COPY ./bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
-# Switch to the kedro user
-USER kedro
+# Switch to the kedro_docker user
+USER kedro_docker
 RUN chmod -R a+w ${APP_HOME}
 
 # Set the environment variables
@@ -76,9 +76,9 @@ ENV PYTHON_PACKAGE="${PYTHON_PACKAGE}"
 # Set the entrypoint
 ENTRYPOINT ["docker-entrypoint"]
 
-# Expose ports for Jupyter (8888), kedro-viz (4141), and mlflow (5000)
-EXPOSE 8888 4141 5000
+# Expose ports for Jupyter (8888), kedro-viz (4141)
+EXPOSE 8888 4141
 
 # Keep the container running by using an infinite loop
-CMD tail -f /dev/null
+CMD kedro run && kedro viz --host=0.0.0.0 --no-browser && tail -f /dev/null
 

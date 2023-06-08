@@ -19,10 +19,8 @@ output_dir: ./${OUTPUT_DIR}
 repo_name: ${REPO_NAME}
 python_package: ${PYTHON_PACKAGE}
 EOF
-
   # Create a new Kedro project
   kedro new --config "$PROMPTS_FILE" --starter=pandas-iris
-
 fi
 
 # Change directory to the Kedro project directory
@@ -30,8 +28,18 @@ fi
 cd "${APP_HOME}/${OUTPUT_DIR}/${REPO_NAME}"
 pip install -r "src/requirements.txt" >/dev/null 2>&1
 
-# Initialize the MLflow tracking server
-kedro mlflow init
+# Initialize the MLflow tracking server configs
+if [[ ! -f "conf/local/mlflow.yml" ]]; then
+  kedro mlflow init
+fi
+
+# Setup jupyter notebook kernal
+if [[ ! -f "${APP_HOME}/.local/share/jupyter/kernels/kedro_${REPO_NAME}" ]]; then
+  kedro jupyter setup
+fi
+
+# Print the message indicating readiness
+echo "Container is ready to use! | Running kedro run ...."
 
 # Run the command
 exec "$@"
