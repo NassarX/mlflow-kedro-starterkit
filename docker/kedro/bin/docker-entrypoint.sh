@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# SET path
+export PATH="${APP_HOME}/.local/bin:$PATH"
+
 # Check if the directory exists
 if [[ ! -d "${APP_HOME}/${OUTPUT_DIR}/${REPO_NAME}" ]]; then
 
@@ -36,7 +39,7 @@ if [[ ! -f "${APP_HOME}/.local/share/jupyter/kernels/kedro_${REPO_NAME}" ]]; the
 fi
 
 # Print the message indicating readiness
-echo "Container is ready to use! | Running kedro run ...."
+echo "Container is ready to use! | Running kedro viz ...."
 
 # Run the command
 exec "$@"

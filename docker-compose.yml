@@ -37,8 +37,6 @@ services:
     volumes:
       - ./mlruns:${MLFLOW_BACKEND_DIR}:rw
       - ./mlruns/models:${MLFLOW_ARTIFACT_STORE}:rw
-    depends_on:
-      - kedro-framework
 
   kedro-framework:
     container_name: kedro-${REPO_NAME}
@@ -60,6 +58,9 @@ services:
     ports:
       - "8889:8888"
       - "4142:4141"
+    depends_on:
+      - mlflow-server
+
 networks:
   default:
-    name: mlflow-starter
+    name: mlflow-kedro-starter

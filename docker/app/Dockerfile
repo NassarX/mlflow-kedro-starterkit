@@ -9,8 +9,6 @@ LABEL version="1.0"
 LABEL description="Python Docker Image for Development"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV PATH="${HOME}/miniconda3/bin:${PATH}"
-ARG PATH="${HOME}/miniconda3/bin:${PATH}"
 
 # Set the working directory
 ENV APP_HOME=/code
