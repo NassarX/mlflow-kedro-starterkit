@@ -39,7 +39,7 @@ if [[ ! -f "${APP_HOME}/.local/share/jupyter/kernels/kedro_${REPO_NAME}" ]]; the
 fi
 
 # Print the message indicating readiness
-echo "Container is ready to use! | Running kedro viz ...."
+echo "Container is ready to use! | kedro viz server running ...."
 
 # Run the command
 exec "$@"
